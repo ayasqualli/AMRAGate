@@ -1,7 +1,6 @@
 <template>
     <div class="user-profile">
       <h2>My Dashboard</h2>
-
       <div class="navigation-links">
         <router-link to="/my-projects">
           <button>My Projects</button>
@@ -13,7 +12,8 @@
           <button>Add Competence</button>
         </router-link>
       </div>
-
+      <nbre_comp/>
+      <projet_realis/>
       <div>
         <p> Name: {{ userData.name }} </p>
         <p> Email: {{ userData.email }} </p>
@@ -96,13 +96,18 @@
   <script>
   import { db, auth } from "../firebase-config";
   import { doc, getDoc, updateDoc } from "firebase/firestore";
-  import Edit_goal from "../components/Edit_goal.vue";
-  import Edit_comp from "../components/Edit_comp.vue";
+  import Edit_goal from "./Edit_goal.vue";
+  import Edit_comp from "./Edit_comp.vue";
+  import nbre_comp from "./nbre_competences_mois.vue";
+  import projet_realis from "./projet_realis.vue";
 
   export default {
     components: {
       Edit_goal,
-      Edit_comp
+      Edit_comp,
+      nbre_comp,
+      projet_realis,
+
     },
     data() {
       return {
