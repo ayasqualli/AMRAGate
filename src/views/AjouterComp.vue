@@ -49,7 +49,7 @@
 
 <script>
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase-config';
 import { getAuth } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
@@ -70,7 +70,6 @@ export default {
   methods: {
     async ajouterCompetence() {
       try {
-        const db = getFirestore();
         const auth = getAuth();
         const user = auth.currentUser;
         
