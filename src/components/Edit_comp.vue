@@ -49,7 +49,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 export default {
-  name: 'Edit_Comp',
+  name: 'Edit_comp',
   props: {
         userId: {
         type: String,

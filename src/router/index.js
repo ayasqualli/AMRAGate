@@ -5,6 +5,9 @@ import Edit_comp from '../components/Edit_comp.vue';
 import Signup from '../views/Signup.vue';
 import Signin from '../views/Signin.vue';
 import AjouterComp from '../views/AjouterComp.vue';
+import AddProject from '../views/AddProject.vue';
+import HomeView from '../views/HomeView.vue';
+
 
 const routes = [
   {
@@ -37,12 +40,16 @@ const routes = [
     path:'/AjouterComp',
     name:'AjouterComp',
     component: AjouterComp
+  },
+  {
+    path: '/add-project',
+    name: "AddProject", 
+    component: AddProject
   }
-  
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

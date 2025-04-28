@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submitForm" class="form">
-    <title>Add Project</title>
+    <h1>Add Project</h1>
 
     <div class="form-group">
       <label>Project's name</label>
@@ -15,13 +15,12 @@
 
     <div class="form-group">
       <label>Description</label>
-      <input
-        type="textarea"
+      <textarea
         v-model="formData.description"
         required
         class="form-input"
         placeholder="Enter Project Description"
-      />
+      ></textarea>
     </div>
 
     <div class="form-group">
@@ -38,28 +37,28 @@
         <button @click="addTech" class="add-btn">Add</button>
 
         <div class="tags">
-            <span v-for="(tech, index) in techStack" :key="index" class="tech-tag"> {{ tech }}
+            <span v-for="(tech, index) in formData.techStack" :key="index" class="tech-tag"> {{ tech }}
                 <button @click="removeTech(index)" class="remove-btn">x</button>
             </span>
         </div>
       </div>
+    </div>
 
     <div class="form-group">
         <label>Github Link</label>
-        <input type="url" v-model="github" placeholder="Add your project link" />
+        <input type="url" v-model="formData.github" placeholder="Add your project link" />
     </div>
 
     <div class="form-group">
         <label>Upload project image</label>
         <div class="image"></div>
     </div>
-    </div>
   </form>
 </template>
 
 <script>
 import { db } from "../firebase-config";
-import { collections, addDoc} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 export default {
@@ -77,13 +76,40 @@ export default {
     },
     methods: {
         addTech() {
-            if (this.newTech.trim != ''){
-                this.techStack.push(this.nexTech.trim());
+            if (this.newTech.trim() !== ''){
+                this.formData.techStack.push(this.newTech.trim());
                 this.newTech = '';
             }
         },
         removeTech(index){
-            this.techStack.splice(index, 1);
+            this.formData.techStack.splice(index, 1);
+        }
+    },
+    async submitForm(){
+        try {
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if (user) {
+                const userId = user.uid;
+
+                const projectRef = await addDoc(collection(db, 'projects'), {
+                    title: this.formData.title,
+                    description: this.formData.description,
+                    owner: userId,
+                    addedAt: new Date(),
+                    techStack : this.formData.techStack,
+                    github : this.formData.github
+                });
+
+                return projectRef;
+            }else{
+                throw new Error("User not authenticated");
+            }
+        }
+        catch (error) {
+            console.log("Error storing project:", error);
+            throw error;
         }
     }
 };
@@ -117,7 +143,7 @@ export default {
   background-color: #218838;
 }
 
-.tech-tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
