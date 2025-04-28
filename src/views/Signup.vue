@@ -94,8 +94,8 @@
               username: this.username,
               email: this.email,
               bio:"",
-              competences:{date_acqui:"",date_debut:"",date_progr:"",level:"",name:""}, 
-              goals:{obj:"",status:"",suivi:""},
+              competences:[],
+              goals:[],
               createdAt: new Date(),
             });
   
