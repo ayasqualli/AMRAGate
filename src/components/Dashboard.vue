@@ -18,7 +18,46 @@
         <p> Name: {{ userData.name }} </p>
         <p> Email: {{ userData.email }} </p>
         <p> Bio: {{ userData.bio }} </p>
-        <p> Goals:{{ userData.goals }}</p>
+        
+        <div v-if="userData.goals && userData.goals.length">
+          <h3>Goals</h3>
+          <div
+            v-for="(goals, index) in userData.goals"
+            :key="index"
+            class="Goals-card"
+          >
+            <p> goal: {{ goals.obj }}</p>
+            <p> statu: {{ goals.status }}</p>
+            <p> my progression: {{ goals.suivi }}</p>
+            <Edit_goal 
+              :userId="currentUserId"
+              :goal="user.goals[index]" 
+              :goalIndex="index"
+            />
+            <button @click="deletegoal(index)">Delete</button>
+          </div>
+          <div v-if="!showAddGoalForm">
+            <button @click="showAddGoalForm = true">Add a New Goal</button>
+          </div>
+        </div>
+        
+        <div v-else>
+          <p>No goals listed.</p>
+          <button @click="showAddGoalForm = true">Add a New Goal</button>
+        </div>
+
+        <div v-if="showAddGoalForm">
+          <h3>Add a New Goal</h3>
+          <form @submit.prevent="addGoal">
+            <input type="text" v-model="newGoal.obj" placeholder="Goal Objectif" required>
+            <input type="text" v-model="newGoal.status" placeholder="Goal Status" required>
+            <input type="text" v-model="newGoal.suivi" placeholder="Suivi" required>
+            <button type="submit">Save Goal</button>
+            <button @click="showAddGoalForm = false">Cancel</button>
+          </form>
+        </div>
+
+
   
         <div v-if="userData.competences && userData.competences.length">
           <h3>Competences</h3>
@@ -36,6 +75,7 @@
               :competence="user.competences[index]" 
               :competenceIndex="index"
             />
+            <button @click="deleteCompetence(index)">Delete</button>
           </div>
         </div>
         <div v-else>
@@ -47,14 +87,15 @@
   
   
   <script>
-  import Edit_Comp from "./Edit_comp.vue";
   import { db, auth } from "../firebase-config";
   import { doc, getDoc, updateDoc } from "firebase/firestore";
- 
+  import Edit_goal from "./Edit_goal.vue";
+  import Edit_comp from "./Edit_comp.vue";
 
   export default {
     components: {
-      Edit_Comp
+      Edit_goal,
+      Edit_comp
     },
     data() {
       return {
@@ -91,7 +132,53 @@
           alert("Updated Profile");
           this.$router.push("/Home");
         }
+      },
+      async deleteCompetence(index) {
+        const user = auth.currentUser;
+        if (user) {
+          const docRef = doc(db, "users", user.uid);
+          const competences = this.userData.competences || [];
+          competences.splice(index, 1);
+          await updateDoc(docRef, { competences });
+          this.userData.competences = competences;
+        }
+      },
+      async addGoal() {
+        const user = auth.currentUser;
+        if (user) {
+          const docRef = doc(db, "users", user.uid);
+          const goals = this.userData.goals || [];
+
+          // Push new goal
+          goals.push({
+            obj: this.newGoal.obj,
+            status: this.newGoal.status,
+            suivi: this.newGoal.suivi
+          });
+          await updateDoc(docRef, { goals });
+
+          // Update local state
+          this.userData.goals = goals;
+
+          // Reset form
+          this.newGoal = { obj: "", status: "", suivi: "" };
+          this.showAddGoalForm = false;
+
+          alert("New goal added!");
+          this.$router
+        }
+      },
+      async deletegoal(index) {
+        const user = auth.currentUser;
+        if (user) {
+          const docRef = doc(db, "users", user.uid);
+          const goals = this.userData.goals || [];
+          goals.splice(index, 1);
+          await updateDoc(docRef, { goals });
+          this.userData.goals = goals;
+        }
       }
+      
     }
   };
   </script>
