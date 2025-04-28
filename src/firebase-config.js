@@ -4,16 +4,16 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
          signInWithPhoneNumber, RecaptchaVerifier, onAuthStateChanged,updateProfile } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
-// Your Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyBUoOm7Eu2tWkK2UzpuoPnXZX3wFHfhQiY",
-  authDomain: "quizzmania-app.firebaseapp.com",
-  projectId: "quizzmania-app",
-  storageBucket: "quizzmania-app.firebasestorage.app",
-  messagingSenderId: "380966396645",
-  appId: "1:380966396645:web:7e8e4dd85915ce0ad9aa0c",
-  measurementId: "G-X7HCZSVB3X"
+  apiKey: "AIzaSyCZ6GbHLTgjd8vFThwyYMuMq0WpCyoNtyY",
+  authDomain: "amragate-b6824.firebaseapp.com",
+  projectId: "amragate-b6824",
+  storageBucket: "amragate-b6824.firebasestorage.app",
+  messagingSenderId: "861436275631",
+  appId: "1:861436275631:web:78ffc855b79930448fdd5a",
+  measurementId: "G-ZW6B1Y7QHM"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
