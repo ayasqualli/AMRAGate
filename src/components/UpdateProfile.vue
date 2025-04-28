@@ -13,9 +13,6 @@
   
         <label>Bio:</label>
         <textarea v-model="userData.bio" />
-
-        <label>Goals:</label>
-        <textarea v-model="userData.goals" />
   
         <div style="display:flex; justify-content:space-between; margin-top:20px;">
           <button type="submit">Update</button>
