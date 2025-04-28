@@ -16,6 +16,16 @@ const routes = [
     component: HomeView
   },
   {
+    path: "/signin", 
+    name: "Signin",
+    component: Signin
+  },
+  {
+    path: "/signup", 
+    name: "Signup",
+    component: Signup
+  },
+  {
     path: '/Dashboard',
     name: 'Dashboard',
     component: Dashboard

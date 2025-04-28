@@ -37,23 +37,30 @@
             <button @click="deletegoal(index)">Delete</button>
           </div>
           <div v-if="!showAddGoalForm">
-            <button @click="showAddGoalForm = true">Add a New Goal</button>
+            <button @click="set_true">Add a New Goal</button>
           </div>
         </div>
         
         <div v-else>
           <p>No goals listed.</p>
-          <button @click="showAddGoalForm = true">Add a New Goal</button>
+          <button @click="set_true">Add a New Goal</button>
         </div>
 
         <div v-if="showAddGoalForm">
           <h3>Add a New Goal</h3>
           <form @submit.prevent="addGoal">
+            <label>Objectif:</label>
             <input type="text" v-model="newGoal.obj" placeholder="Goal Objectif" required>
-            <input type="text" v-model="newGoal.status" placeholder="Goal Status" required>
-            <input type="text" v-model="newGoal.suivi" placeholder="Suivi" required>
+            <label>Statu:</label>
+            <select v-model="newGoal.status" required>
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <label>My progression:</label>
+            <input type="text" v-model="newGoal.suivi" placeholder="My Progression" required>
             <button type="submit">Save Goal</button>
-            <button @click="showAddGoalForm = false">Cancel</button>
+            <button @click="set_false">Cancel</button>
           </form>
         </div>
 
@@ -93,6 +100,7 @@
   import Edit_comp from "./Edit_comp.vue";
   import nbre_comp from "./nbre_competences_mois.vue";
   import projet_realis from "./projet_realis.vue";
+
   export default {
     components: {
       Edit_goal,
@@ -109,6 +117,12 @@
           bio: "",
           goals: [],
           competences: []
+        },
+        showAddGoalForm:false,
+        newGoal: {
+          obj: "",
+          status: "",
+          suivi: ""
         }
       };
     },
@@ -127,6 +141,12 @@
             this.competences = data.competences || [];
           }
         }
+      },
+      set_true(){
+        this.showAddGoalForm = true;
+      },
+      set_false(){
+        this.showAddGoalForm = false;
       },
       async updateProfile() {
         const user = auth.currentUser;
