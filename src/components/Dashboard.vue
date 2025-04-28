@@ -89,8 +89,8 @@
   <script>
   import { db, auth } from "../firebase-config";
   import { doc, getDoc, updateDoc } from "firebase/firestore";
-  import Edit_goal from "./Edit_goal.vue";
-  import Edit_comp from "./Edit_comp.vue";
+  import Edit_goal from "../components/Edit_goal.vue";
+  import Edit_comp from "../components/Edit_comp.vue";
 
   export default {
     components: {
