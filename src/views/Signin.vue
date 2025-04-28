@@ -57,7 +57,7 @@ export default {
     async loginUser() {
       try {
         await loginWithEmailAndPassword(this.email, this.password);
-        this.$router.push("/Profile");
+        this.$router.push("/Dashboard");
       } catch (error) {
         console.error('Login error:', error);
         if (error.code === "auth/wrong-password") {
